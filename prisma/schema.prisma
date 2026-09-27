@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Projeto {
+  id           String   @id @default(uuid())
+  genero       String
+  duracao      Int
+  orcamento    Float
+  prazo        DateTime
+  tipoCaptacao String   @default("ficção")
+  localizacao  String   @default("Global")
+
+  papeisObrigatorios ProjetoPapel[]
+  equipes            Equipe[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjetoPapel {
+  id        String  @id @default(uuid())
+  projetoId String
+  papel     String
+  peso      Int     @default(10)
+
+  projeto   Projeto @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+}
+
+model Profissional {
+  id               String   @id @default(uuid())
+  nome             String
+  precoMedio       Float
+  disponibInicio   DateTime
+  disponibFim      DateTime
+  localizacao      String   @default("Global")
+
+  competencias      Competencia[]
+  historicoProjetos HistoricoProjeto[]
+  especialidades    Especialidade[]
+  avaliacoes        Avaliacao[]
+  alocacoes         MembroEquipe[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Competencia {
+  id             String       @id @default(uuid())
+  profissionalId String
+  nome           String
+  nivel          Int          @default(0)
+
+  profissional   Profissional @relation(fields: [profissionalId], references: [id], onDelete: Cascade)
+}
+
+model HistoricoProjeto {
+  id             String       @id @default(uuid())
+  profissionalId String
+  nomeProjeto    String
+
+  profissional   Profissional @relation(fields: [profissionalId], references: [id], onDelete: Cascade)
+}
+
+model Especialidade {
+  id             String       @id @default(uuid())
+  profissionalId String
+  nome           String
+
+  profissional   Profissional @relation(fields: [profissionalId], references: [id], onDelete: Cascade)
+}
+
+model Avaliacao {
+  id             String       @id @default(uuid())
+  profissionalId String
+  nota           Float
+  comentario     String?
+
+  profissional   Profissional @relation(fields: [profissionalId], references: [id], onDelete: Cascade)
+}
+
+model Equipe {
+  id           String   @id @default(uuid())
+  projetoId    String
+  dataFormacao DateTime @default(now())
+  status       String   @default("EM_FORMACAO")
+  contagemSubstituicoes Int @default(0)
+
+  projeto      Projeto        @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+  membros      MembroEquipe[]
+}
+
+model MembroEquipe {
+  id             String       @id @default(uuid())
+  equipeId       String
+  profissionalId String
+  papel          String
+  confirmado     Boolean      @default(false)
+
+  equipe         Equipe       @relation(fields: [equipeId], references: [id], onDelete: Cascade)
+  profissional   Profissional @relation(fields: [profissionalId], references: [id], onDelete: Restrict)
+}

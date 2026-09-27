@@ -1,0 +1,36 @@
+{
+  "name": "cinebridge-atv1",
+  "version": "1.0.0",
+  "description": "Microsserviço de recomendação e orquestração de equipes para a indústria audiovisual independente - CineBridge",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "cli": "tsx src/cli.ts"
+  },
+  "keywords": [
+    "cinebridge",
+    "design-patterns",
+    "fastify",
+    "typescript",
+    "vitest"
+  ],
+  "author": "Pedro",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.22.0",
+    "@types/node": "^22.5.4",
+    "@vitest/coverage-v8": "^2.1.1",
+    "prisma": "^5.22.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}
