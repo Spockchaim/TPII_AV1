@@ -27,7 +27,7 @@ model ProjetoPapel {
   id        String  @id @default(uuid())
   projetoId String
   papel     String
-  peso      Int     @default(10)
+  peso      Float     @default(10)
 
   projeto   Projeto @relation(fields: [projetoId], references: [id], onDelete: Cascade)
 }

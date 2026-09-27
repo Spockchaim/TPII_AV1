@@ -129,7 +129,7 @@ export function buildApp(dependencies: AppDependencies = {}): FastifyInstance {
       body.duracao,
       body.orcamento,
       new Date(body.prazo),
-      body.papeisObrigatorios.map((papel) => ({ papel, peso: 10 })),
+      body.papeisObrigatorios,
       body.tipoCaptacao ?? "ficção",
       body.localizacao ?? "Global"
     );
@@ -144,6 +144,8 @@ export function buildApp(dependencies: AppDependencies = {}): FastifyInstance {
           duracao: projeto.duracao,
           orcamento: projeto.orcamento,
           prazo: projeto.prazo,
+          tipoCaptacao: projeto.tipoCaptacao,
+          localizacao: projeto.localizacao,
           papeisObrigatorios: { create: projeto.papeisObrigatorios.map(p => ({ papel: p.papel, peso: p.peso })) }
         }
       });

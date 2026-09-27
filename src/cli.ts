@@ -118,7 +118,7 @@ async function menuCriarProjeto() {
      return;
   }
 
-  const papeisObrigatorios = papeisLimpos.map(papel => ({ papel: papel as Papel, peso: 10 }));
+  const papeisObrigatorios = papeisLimpos.map(papel => ({ papel: papel as Papel, peso: 10 / papeisLimpos.length }));
   const id = `cli-proj-${Date.now()}`;
   
   projetoAtual = new Projeto(id, genero || 'Geral', duracao, orcamento, parseDataBr(prazoStr), papeisObrigatorios, tipoCaptacao || 'Ficção', localizacao || 'Global');

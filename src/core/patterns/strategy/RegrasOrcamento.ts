@@ -23,7 +23,9 @@ export class RegrasOrcamento implements RecomendacaoStrategy {
       // Prioriza menor preço médio, dando preferência a quem cabe no teto proporcional
       const candidatos = [...baseParaPapel].sort((a, b) => {
         // Multiplica o teto pelo peso do papel (papeis mais importantes têm maior teto proporcional)
-        const tetoAjustado = tetoPorPapel * (req.peso / 10 || 1); // Normalizando se o peso for até 10
+        // Como a lógica de negócio garante que a soma dos pesos é 10, (req.peso / 10) é exatamente o percentual!
+        // Ex: Peso 8 = 80% do orçamento total, Peso 2 = 20% do orçamento total.
+        const tetoAjustado = projeto.orcamento * (req.peso / 10);
 
         const dentroTetoA = a.precoMedio <= tetoAjustado ? 1 : 0;
         const dentroTetoB = b.precoMedio <= tetoAjustado ? 1 : 0;

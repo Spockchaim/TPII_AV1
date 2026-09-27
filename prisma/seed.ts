@@ -132,7 +132,7 @@ async function main() {
         prazo: new Date(Date.now() + 1000 * 60 * 60 * 24 * (Math.floor(Math.random() * 150) + 30)),
         localizacao: locacoes[Math.floor(Math.random() * locacoes.length)],
         papeisObrigatorios: {
-          create: papeisEscolhidos.map(p => ({ papel: p, peso: 10 }))
+          create: papeisEscolhidos.map(p => ({ papel: p, peso: 10 / papeisEscolhidos.length }))
         }
       },
       include: { papeisObrigatorios: true }

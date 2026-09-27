@@ -46,9 +46,25 @@ export class Projeto {
     this._prazo = new Date(prazo.getTime());
     this._tipoCaptacao = tipoCaptacao;
     this._localizacao = localizacao;
-    this._papeisObrigatorios = papeisObrigatorios.map(p => 
-      typeof p === 'string' ? { papel: p, peso: 10 } : p
-    );
+
+    const papeisMapeados = papeisObrigatorios.map(p => {
+      if (typeof p === 'string') {
+        return { papel: p, peso: 10 / (papeisObrigatorios.length || 1) };
+      }
+      return p;
+    });
+
+    const somaPesos = papeisMapeados.reduce((soma, p) => soma + p.peso, 0);
+    
+    // Validação de totalização 
+    if (papeisMapeados.length > 0 && Math.abs(somaPesos - 10) > 0.01) {
+      throw new Error(`A soma total dos pesos dos papéis deve ser exatamente 10 . Soma atual enviada: ${somaPesos}`);
+    }
+
+    // Ordenação decrescente de peso para garantir prioridade de escolha na orquestração
+    papeisMapeados.sort((a, b) => b.peso - a.peso);
+
+    this._papeisObrigatorios = papeisMapeados;
   }
 
   public get id(): string {
